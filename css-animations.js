@@ -204,10 +204,7 @@
         }
     };
 
-    if(typeof define == 'function' && define.amd) {
-        define(function() { return new Animations(); });
-    }
-    else {
-        window.CSSAnimations = new Animations();
-    }
+    if (typeof module != 'undefined' && module.exports && this.module !== module) { module.exports = new Animations(); }
+    else if (typeof define === 'function' && define.amd) { define(function() { return new Animations(); }) }
+    else { window.CSSAnimations = new Animations(); }
 })();
