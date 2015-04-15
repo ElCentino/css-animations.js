@@ -114,7 +114,22 @@
 
     function Animations() {
         this.animations = {};
+        this.rebuild();
+    }
 
+    Animations.prototype.importStyle = function(style) {
+        var anims = this.animations;
+        try {
+            findKeyframeRules(style, function(rule) {
+                anims[rule.name] = new KeyframeAnimation(rule);
+            });
+        }
+        catch(e) {
+            console.error(e);
+        }
+    };
+
+    Animations.prototype.rebuild = function() {
         var styles = document.styleSheets;
         var anims = this.animations;
 
@@ -127,9 +142,10 @@
             catch(e) {
                 // Trying to interrogate a stylesheet from another
                 // domain will throw a security error
+                console.error(e);
             }
         }
-    }
+    };
 
     Animations.prototype.get = function(name) {
         return this.animations[name];
